@@ -1,0 +1,17 @@
+version: '3'
+services:
+  vtt_fw:
+    build: .
+    image: marvinhris/vtt_fw
+    container_name: container_vtt_fw
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    ports:
+      - "8080:5000"
+    deploy:
+      resources:
+        limits:
+          memory: 12288M
+    memswap_limit: 12290M
