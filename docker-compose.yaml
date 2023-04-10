@@ -13,5 +13,5 @@ services:
     deploy:
       resources:
         limits:
-          memory: 12288M
-    memswap_limit: 12290M
+          memory: 8192M
+    memswap_limit: 8200M
