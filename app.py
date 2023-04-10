@@ -16,7 +16,7 @@ ALLOWED_EXTENSIONS = {'wav','mp3'}
 
 @app.route('/', methods=['GET'])
 def home():
-    return {"success": True, "message": "Hello World from voice_to_text FW"}
+    return {"success": True, "message": "Hello World from VTT FW"}
 
 def allowed_file(filename):
     return '.' in filename and \
