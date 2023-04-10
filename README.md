@@ -2,6 +2,6 @@
 Voice to Text Faster Whisper
 
 Usage : 
-1. Git Pull on server and installed docker
-2. just run docker-compose up
+1. git clone this repo
+2. docker-compose up -d
 3. done
