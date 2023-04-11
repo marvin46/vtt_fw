@@ -67,7 +67,7 @@ def transcript():
 
     # 03 Write unique file
     tempName = str(uuid.uuid4())
-    tempFile = os.path.join(app.config['UPLOAD_FOLDER'], f'{tempName}_{audio_file.filename}')
+    tempFile = os.path.join(UPLOAD_FOLDER, f'{tempName}_{audio_file.filename}')
     
     # 04 Read Open & Write audio data to file uploaded files
     audio_data = audio_file.read()
@@ -91,7 +91,7 @@ def transcript():
 
 @app.route('/clear_uploaded_files', methods=['GET'])
 def clear_uploaded_files():
-    paths = app.config['UPLOAD_FOLDER']
+    paths = UPLOAD_FOLDER
     lenFile = 0
     for f in os.listdir(paths):
         os.remove(os.path.join(paths, f))
