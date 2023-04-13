@@ -1,4 +1,4 @@
-FROM python:3.8.10-slim-buster
+FROM python:3.10.11-slim
 
 # Install required system packages
 RUN apt-get update && apt-get install -y \

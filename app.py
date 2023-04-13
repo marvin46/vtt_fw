@@ -65,6 +65,9 @@ def transcript():
             'message': f'Failed transcript audio to text, File Name {audio_file.filename} Not Allowed',
         }
 
+    if not os.path.exists(UPLOAD_FOLDER):
+        os.makedirs(UPLOAD_FOLDER)
+
     # 03 Write unique file
     tempName = str(uuid.uuid4())
     tempFile = os.path.join(UPLOAD_FOLDER, f'{tempName}_{audio_file.filename}')

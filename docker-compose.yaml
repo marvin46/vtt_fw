@@ -1,7 +1,12 @@
 version: '3'
 services:
   vtt_fw:
-    build: .
+    build:
+      context: .
+      dockerfile: dockerfile
+      options:
+        compress: true
+        no-cache: true
     image: marvinhris/vtt_fw
     container_name: container_vtt_fw
     working_dir: /app
