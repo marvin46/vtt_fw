@@ -1,2 +1,3 @@
-Flask
-faster-whisper
+flask
+gunicorn
+# faster-whisper

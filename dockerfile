@@ -16,5 +16,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy source code
 COPY . .
 
-# Start the Flask app
-CMD ["python", "app.py"]
+# Download Model
+# RUN git lfs install
+# RUN git clone https://huggingface.co/guillaumekln/faster-whisper-medium
