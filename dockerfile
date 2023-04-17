@@ -17,5 +17,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Download Model
-# RUN git lfs install
-# RUN git clone https://huggingface.co/guillaumekln/faster-whisper-medium
+RUN git lfs install
+RUN git clone https://huggingface.co/guillaumekln/faster-whisper-small
+
+# RUN APP
+CMD ["gunicorn", "-w", "4", "-b", "0.0.0.0:8080", "wsgi:server"]
