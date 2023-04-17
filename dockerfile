@@ -19,6 +19,7 @@ COPY . .
 
 # Download Model
 RUN git-lfs install
+RUN git-lfs update --force
 RUN git clone https://huggingface.co/guillaumekln/faster-whisper-small
 
 # RUN APP
