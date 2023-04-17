@@ -8,11 +8,11 @@ from tempfile import NamedTemporaryFile
 from faster_whisper import WhisperModel
 
 server = Flask(__name__)
-server.config['DEBUG'] = True
+server.config['DEBUG'] = os.environ['DEBUG']
 
-MODEL_SIZE = 'faster-whisper-small'
-UPLOAD_FOLDER = 'uploaded_files'
-ALLOWED_EXTENSIONS = {'wav','mp3'}
+modelPath = os.path.join(os.environ['MODEL_DIRECTORY'], + '/' + os.environ['MODEL_NAME'])
+if not os.path.isfile(modelPath): 
+    modelPath = os.environ['MODEL_SIZE']
 
 @server.route('/', methods=['GET'])
 def home():
@@ -20,11 +20,11 @@ def home():
 
 def allowed_file(filename):
     return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           filename.rsplit('.', 1)[1].lower() in os.environ['ALLOWED_EXTENSIONS']
 
 @server.route('/test_mp3', methods=['GET'])
 def test_mp3():
-    model = WhisperModel(MODEL_SIZE, compute_type="int8")
+    model = WhisperModel(modelPath, compute_type="int8")
     segments, info = model.transcribe("audiobook.mp3")
     data = ''
     for segment in segments:
@@ -34,7 +34,7 @@ def test_mp3():
 
 @server.route('/test_wav', methods=['GET'])
 def test_wav():
-    model = WhisperModel(MODEL_SIZE, compute_type="int8")
+    model = WhisperModel(modelPath, compute_type="int8")
     segments, info = model.transcribe("indonesian.wav")
     data = ''
     for segment in segments:
@@ -63,12 +63,12 @@ def transcript():
             'message': f'Failed transcript audio to text, File Name {audio_file.filename} Not Allowed',
         }
 
-    if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER)
+    if not os.path.exists(os.environ['UPLOAD_FOLDER']):
+        os.makedirs(os.environ['UPLOAD_FOLDER'])
 
     # 03 Write unique file
     tempName = str(uuid.uuid4())
-    tempFile = os.path.join(UPLOAD_FOLDER, f'{tempName}_{audio_file.filename}')
+    tempFile = os.path.join(os.environ['UPLOAD_FOLDER'], f'{tempName}_{audio_file.filename}')
     
     # 04 Read Open & Write audio data to file uploaded files
     audio_data = audio_file.read()
@@ -76,7 +76,7 @@ def transcript():
         f.write(audio_data)
 
     # 05 load model and start transcribe audio to text
-    model = WhisperModel(MODEL_SIZE, compute_type="int8")
+    model = WhisperModel(modelPath, compute_type="int8")
     segments, info = model.transcribe(tempFile)
     data = ''
     for segment in segments:
@@ -92,11 +92,12 @@ def transcript():
 
 @server.route('/clear_uploaded_files', methods=['GET'])
 def clear_uploaded_files():
-    paths = UPLOAD_FOLDER
+    paths = os.environ['UPLOAD_FOLDER']
     lenFile = 0
-    for f in os.listdir(paths):
-        os.remove(os.path.join(paths, f))
-        lenFile += 1
+    if os.path.exists(paths):
+        for f in os.listdir(paths):
+            os.remove(os.path.join(paths, f))
+            lenFile += 1
 
     removedStr = str(lenFile)
     return {'message' : 'Removed ' + removedStr + ' Files'}
