@@ -130,3 +130,7 @@ dmypy.json
 
 # model
 /model
+
+# docker compose
+*.yaml
+*.yml
