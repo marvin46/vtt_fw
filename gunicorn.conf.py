@@ -2,13 +2,13 @@
 workers = 4
 
 # Number of threads per worker process
-threads = 1
+threads = 2
 
 # Bind to this address:port
 bind = "127.0.0.1:8000"
 
-# Worker class (sync, eventlet, gevent, tornado)
-worker_class = "gthread"
+# Worker class (sync, eventlet, gevent, gthread, tornado)
+worker_class = "gevent"
 
 # Maximum number of requests a worker will process before restarting
 max_requests = 1000
