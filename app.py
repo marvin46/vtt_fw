@@ -11,8 +11,6 @@ server = Flask(__name__)
 server.config['DEBUG'] = os.environ['DEBUG']
 
 modelPath = os.environ['MODEL_SIZE']
-if not os.path.exists(os.environ['MODEL_DIRECTORY']):
-    os.makedirs(os.environ['MODEL_DIRECTORY'])
 
 @server.route('/', methods=['GET'])
 def home():
@@ -24,7 +22,7 @@ def allowed_file(filename):
 
 @server.route('/test_mp3', methods=['GET'])
 def test_mp3():
-    model = WhisperModel(modelPath, compute_type="int8", download_root=os.environ['MODEL_DIRECTORY'])
+    model = WhisperModel(modelPath, compute_type="int8")
     segments, info = model.transcribe("audiobook.mp3")
     data = ''
     for segment in segments:
@@ -34,7 +32,7 @@ def test_mp3():
 
 @server.route('/test_wav', methods=['GET'])
 def test_wav():
-    model = WhisperModel(modelPath, compute_type="int8", download_root=os.environ['MODEL_DIRECTORY'])
+    model = WhisperModel(modelPath, compute_type="int8")
     segments, info = model.transcribe("indonesian.wav")
     data = ''
     for segment in segments:
@@ -76,7 +74,7 @@ def transcript():
         f.write(audio_data)
 
     # 05 load model and start transcribe audio to text
-    model = WhisperModel(modelPath, compute_type="int8", download_root=os.environ['MODEL_DIRECTORY'])
+    model = WhisperModel(modelPath, compute_type="int8")
     segments, info = model.transcribe(tempFile)
     data = ''
     for segment in segments:
