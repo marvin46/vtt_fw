@@ -9,6 +9,9 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
+# Create log directory
+RUN mkdir -p /var/log/gunicorn
+
 # Copy source code
 COPY . .
 
@@ -17,3 +20,7 @@ RUN pip install --upgrade pip
 
 # install dependencies
 RUN pip install -r requirements.txt
+
+# handle error log gunicorn
+RUN touch /var/log/gunicorn/error.log && \
+    chmod 777 /var/log/gunicorn/error.log
