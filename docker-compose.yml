@@ -4,7 +4,7 @@ services:
     build: 
       context: .
       dockerfile: dockerfile
-    image: marvinhris/vtt_fw:flask_${MODEL_SIZE}
+    image: marvinhris/vtt_fw
     env_file:
       - .env
     container_name: ${CONTAINER_NAME}
